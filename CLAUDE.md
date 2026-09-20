@@ -1,5 +1,5 @@
 # unravel-code
-
+benimle her zaman türkçe konuş
 Seçili kodu veya regex ifadesini Türkçe ya da İngilizce olarak adım adım açıklayan bir araç.
 Tek bir çekirdek (`core`) yazılır, VS Code / Raycast / Alfred bu çekirdeğin ince kabuklarıdır.
 
