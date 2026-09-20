@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildSelectionContext } from "./selection.js";
+import { buildSelectionContext, getCodePreview, validateSelectionLength } from "./selection.js";
 
 const documentLines = ["l0", "l1", "l2", "l3", "l4", "l5", "l6", "l7", "l8", "l9"];
 
@@ -80,5 +80,51 @@ describe("buildSelectionContext", () => {
         contextLines: 3,
       }),
     ).toEqual({});
+  });
+});
+
+describe("validateSelectionLength", () => {
+  it("rejects an empty selection", () => {
+    expect(validateSelectionLength(0)).toBe("Select some code first.");
+  });
+
+  it("accepts a normal-sized selection", () => {
+    expect(validateSelectionLength(500)).toBeUndefined();
+  });
+
+  it("accepts a selection exactly at the limit", () => {
+    expect(validateSelectionLength(20_000)).toBeUndefined();
+  });
+
+  it("rejects a selection over the limit", () => {
+    const message = validateSelectionLength(20_001);
+    expect(message).toContain("too large");
+    expect(message).toContain("20001");
+  });
+
+  it("respects a custom limit", () => {
+    expect(validateSelectionLength(50, 10)).toContain("too large");
+    expect(validateSelectionLength(5, 10)).toBeUndefined();
+  });
+});
+
+describe("getCodePreview", () => {
+  it("returns short code unchanged", () => {
+    expect(getCodePreview("const x = 1;")).toBe("const x = 1;");
+  });
+
+  it("truncates to the first N lines with an ellipsis marker", () => {
+    const code = ["l0", "l1", "l2", "l3", "l4"].join("\n");
+    expect(getCodePreview(code, 3)).toBe("l0\nl1\nl2\n…");
+  });
+
+  it("does not add an ellipsis when the code has exactly maxLines lines", () => {
+    const code = ["l0", "l1", "l2"].join("\n");
+    expect(getCodePreview(code, 3)).toBe("l0\nl1\nl2");
+  });
+
+  it("defaults to 3 lines", () => {
+    const code = ["l0", "l1", "l2", "l3"].join("\n");
+    expect(getCodePreview(code)).toBe("l0\nl1\nl2\n…");
   });
 });

@@ -1,10 +1,14 @@
-import type { Detail, ExplainRequest, Mode } from "@unravel-code/core";
-import { explain } from "@unravel-code/core";
+import type { Detail, Mode } from "@unravel-code/core";
+import { detectMode } from "@unravel-code/core";
 import * as vscode from "vscode";
-import { ensureApiKey } from "./apiKey.js";
 import { resolveLanguage } from "./config.js";
-import { openStreamingMarkdownDocument } from "./outputDocument.js";
-import { buildSelectionContext } from "./selection.js";
+import type { PanelMode } from "./protocol.js";
+import { buildSelectionContext, validateSelectionLength } from "./selection.js";
+import { UnravelPanel } from "./unravelPanel.js";
+
+const PRIVACY_NOTICE_SHOWN_KEY = "unravelCode.hasShownPrivacyNotice";
+const PRIVACY_NOTICE_MESSAGE =
+  "Unravel: Selected code is sent to the Anthropic API to generate an explanation.";
 
 interface RunExplainOptions {
   forcedMode?: Mode;
@@ -22,13 +26,17 @@ export function createExplainCommand(
     }
 
     const selection = editor.selection;
-    if (selection.isEmpty) {
-      void vscode.window.showErrorMessage("Unravel: Select some code first.");
+    const code = editor.document.getText(selection);
+    const validationError = validateSelectionLength(code.length);
+    if (validationError) {
+      void vscode.window.showErrorMessage(`Unravel: ${validationError}`);
       return;
     }
 
-    const apiKey = await ensureApiKey(context.secrets);
-    if (!apiKey) return;
+    if (!context.globalState.get<boolean>(PRIVACY_NOTICE_SHOWN_KEY, false)) {
+      void vscode.window.showInformationMessage(PRIVACY_NOTICE_MESSAGE);
+      await context.globalState.update(PRIVACY_NOTICE_SHOWN_KEY, true);
+    }
 
     const config = vscode.workspace.getConfiguration("unravelCode");
     const lang = resolveLanguage(
@@ -39,7 +47,6 @@ export function createExplainCommand(
     const model = config.get<string>("model", "claude-haiku-4-5");
     const contextLines = config.get<number>("contextLines", 5);
 
-    const code = editor.document.getText(selection);
     const documentLines = editor.document.getText().split("\n");
     const { contextBefore, contextAfter } = buildSelectionContext({
       documentLines,
@@ -48,41 +55,20 @@ export function createExplainCommand(
       contextLines,
     });
 
-    const output = await openStreamingMarkdownDocument();
+    const requestedMode = options.forcedMode ?? "auto";
+    const resolvedMode: PanelMode =
+      requestedMode === "auto" ? detectMode(code, editor.document.languageId) : requestedMode;
 
-    await vscode.window.withProgress(
-      {
-        location: vscode.ProgressLocation.Notification,
-        title: "Unravel: Explaining...",
-        cancellable: true,
-      },
-      async (_progress, token) => {
-        const controller = new AbortController();
-        token.onCancellationRequested(() => controller.abort());
-
-        const request: ExplainRequest = {
-          code,
-          mode: options.forcedMode ?? "auto",
-          lang,
-          detail,
-          languageId: editor.document.languageId,
-          model,
-          signal: controller.signal,
-          ...(contextBefore !== undefined ? { contextBefore } : {}),
-          ...(contextAfter !== undefined ? { contextAfter } : {}),
-        };
-
-        try {
-          for await (const chunk of explain(request, { apiKey })) {
-            await output.appendText(chunk);
-          }
-        } catch (err) {
-          if (!controller.signal.aborted) {
-            const message = err instanceof Error ? err.message : "Unknown error.";
-            void vscode.window.showErrorMessage(`Unravel: ${message}`);
-          }
-        }
-      },
-    );
+    const panel = UnravelPanel.createOrShow(context.extensionUri, context.secrets);
+    await panel.run({
+      code,
+      languageId: editor.document.languageId,
+      lang,
+      model,
+      detail,
+      mode: resolvedMode,
+      ...(contextBefore !== undefined ? { contextBefore } : {}),
+      ...(contextAfter !== undefined ? { contextAfter } : {}),
+    });
   };
 }

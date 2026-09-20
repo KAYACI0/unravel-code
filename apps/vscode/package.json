@@ -91,15 +91,23 @@
   "scripts": {
     "build": "node esbuild.mjs",
     "watch": "node esbuild.mjs --watch",
-    "typecheck": "tsc --noEmit",
-    "package": "pnpm build && vsce package --no-dependencies --no-yarn"
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.webview.json",
+    "package": "pnpm build && vsce package --no-dependencies --no-yarn",
+    "compile-tests": "tsc -p tsconfig.test.json",
+    "test:e2e": "pnpm build && pnpm compile-tests && vscode-test"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.2.0",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.10.5",
     "@types/vscode": "^1.90.0",
     "@unravel-code/core": "workspace:*",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
     "@vscode/vsce": "^4.0.0",
     "esbuild": "^0.28.2",
+    "markdown-it": "^15.0.2",
+    "mocha": "^12.0.2",
     "typescript": "^5.7.2"
   }
 }

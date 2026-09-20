@@ -23,18 +23,3 @@ export async function clearApiKeyCommand(secrets: vscode.SecretStorage): Promise
   await secrets.delete(SECRET_KEY);
   void vscode.window.showInformationMessage("Unravel: API key cleared.");
 }
-
-export async function ensureApiKey(secrets: vscode.SecretStorage): Promise<string | undefined> {
-  const existing = await getApiKey(secrets);
-  if (existing) return existing;
-
-  const choice = await vscode.window.showWarningMessage(
-    "Unravel: No API key set.",
-    "Set API Key",
-    "Cancel",
-  );
-  if (choice !== "Set API Key") return undefined;
-
-  await setApiKeyCommand(secrets);
-  return getApiKey(secrets);
-}

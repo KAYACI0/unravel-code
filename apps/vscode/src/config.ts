@@ -1,4 +1,4 @@
-import type { Detail, Lang } from "@unravel-code/core";
+import type { Detail } from "@unravel-code/core";
 
 export interface RawUnravelConfig {
   language: "auto" | "tr" | "en";
@@ -7,7 +7,10 @@ export interface RawUnravelConfig {
   contextLines: number;
 }
 
-export function resolveLanguage(config: RawUnravelConfig["language"], envLanguage: string): Lang {
+export function resolveLanguage(
+  config: RawUnravelConfig["language"],
+  envLanguage: string,
+): "tr" | "en" {
   if (config !== "auto") return config;
   return envLanguage.toLowerCase().startsWith("tr") ? "tr" : "en";
 }

@@ -3,7 +3,7 @@ import { build, context } from "esbuild";
 const watch = process.argv.includes("--watch");
 
 /** @type {import("esbuild").BuildOptions} */
-const options = {
+const extensionOptions = {
   entryPoints: ["src/extension.ts"],
   bundle: true,
   outfile: "dist/extension.js",
@@ -15,10 +15,25 @@ const options = {
   minify: !watch,
 };
 
+/** @type {import("esbuild").BuildOptions} */
+const webviewOptions = {
+  entryPoints: ["src/webview/main.ts"],
+  bundle: true,
+  outfile: "dist/webview/main.js",
+  format: "iife",
+  platform: "browser",
+  target: "es2020",
+  sourcemap: true,
+  minify: !watch,
+};
+
 if (watch) {
-  const ctx = await context(options);
-  await ctx.watch();
+  const [extensionCtx, webviewCtx] = await Promise.all([
+    context(extensionOptions),
+    context(webviewOptions),
+  ]);
+  await Promise.all([extensionCtx.watch(), webviewCtx.watch()]);
   console.log("esbuild: watching for changes...");
 } else {
-  await build(options);
+  await Promise.all([build(extensionOptions), build(webviewOptions)]);
 }

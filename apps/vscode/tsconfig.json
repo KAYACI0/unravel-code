@@ -7,5 +7,6 @@
     "moduleResolution": "Bundler",
     "types": ["vscode", "node"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/webview", "src/test"]
 }
