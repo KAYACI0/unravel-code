@@ -1,5 +1,10 @@
-import { DEFAULT_MODEL } from "@unravel-code/core";
+import { runCli } from "./cli.js";
 
-export function cliInfo(): string {
-  return `unravel CLI (default model: ${DEFAULT_MODEL})`;
-}
+runCli(process.argv.slice(2))
+  .then((code) => {
+    process.exitCode = code;
+  })
+  .catch((err: unknown) => {
+    process.stderr.write(`${err instanceof Error ? err.message : "Unknown error."}\n`);
+    process.exitCode = 1;
+  });
