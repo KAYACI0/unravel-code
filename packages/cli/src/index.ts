@@ -1,5 +1,5 @@
-import { CORE_PACKAGE_NAME } from "@unravel-code/core";
+import { DEFAULT_MODEL } from "@unravel-code/core";
 
 export function cliInfo(): string {
-  return `unravel CLI (uses ${CORE_PACKAGE_NAME})`;
+  return `unravel CLI (default model: ${DEFAULT_MODEL})`;
 }
