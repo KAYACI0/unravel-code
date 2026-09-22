@@ -1,10 +1,11 @@
-import type { Detail } from "@unravel-code/core";
+import type { AuthMode, Detail } from "@unravel-code/core";
 
 export interface RawUnravelConfig {
   language: "auto" | "tr" | "en";
   detail: Detail;
   model: string;
   contextLines: number;
+  auth: AuthMode;
 }
 
 export function resolveLanguage(
@@ -13,4 +14,21 @@ export function resolveLanguage(
 ): "tr" | "en" {
   if (config !== "auto") return config;
   return envLanguage.toLowerCase().startsWith("tr") ? "tr" : "en";
+}
+
+/**
+ * Decides whether this run needs an API key at all. Claude Code supplies its own
+ * credential, and "auto" only needs a key when Claude Code is not the choice.
+ */
+export function requiresApiKey(auth: AuthMode, hasStoredKey: boolean): boolean {
+  if (auth === "claudeCode") return false;
+  if (auth === "apiKey") return true;
+  return hasStoredKey;
+}
+
+/** The auth mode actually used, once the stored key is known. */
+export function resolveAuthMode(auth: AuthMode, hasStoredKey: boolean): "claudeCode" | "apiKey" {
+  if (auth === "claudeCode") return "claudeCode";
+  if (auth === "apiKey") return "apiKey";
+  return hasStoredKey ? "apiKey" : "claudeCode";
 }

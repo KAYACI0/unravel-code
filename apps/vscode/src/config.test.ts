@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveLanguage } from "./config.js";
+import { requiresApiKey, resolveAuthMode, resolveLanguage } from "./config.js";
 
 describe("resolveLanguage", () => {
   it("passes through an explicit tr/en choice", () => {
@@ -17,5 +17,34 @@ describe("resolveLanguage", () => {
     expect(resolveLanguage("auto", "en-US")).toBe("en");
     expect(resolveLanguage("auto", "de")).toBe("en");
     expect(resolveLanguage("auto", "ja")).toBe("en");
+  });
+});
+
+describe("requiresApiKey", () => {
+  it("never asks for a key in claudeCode mode", () => {
+    expect(requiresApiKey("claudeCode", false)).toBe(false);
+    expect(requiresApiKey("claudeCode", true)).toBe(false);
+  });
+
+  it("always asks for a key in apiKey mode", () => {
+    expect(requiresApiKey("apiKey", false)).toBe(true);
+    expect(requiresApiKey("apiKey", true)).toBe(true);
+  });
+
+  it("in auto mode only needs a key when one is already stored", () => {
+    expect(requiresApiKey("auto", false)).toBe(false);
+    expect(requiresApiKey("auto", true)).toBe(true);
+  });
+});
+
+describe("resolveAuthMode", () => {
+  it("honours an explicit mode regardless of the stored key", () => {
+    expect(resolveAuthMode("claudeCode", true)).toBe("claudeCode");
+    expect(resolveAuthMode("apiKey", false)).toBe("apiKey");
+  });
+
+  it("prefers a stored key in auto mode, else falls back to Claude Code", () => {
+    expect(resolveAuthMode("auto", true)).toBe("apiKey");
+    expect(resolveAuthMode("auto", false)).toBe("claudeCode");
   });
 });

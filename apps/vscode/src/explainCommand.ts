@@ -1,4 +1,4 @@
-import type { Detail, Mode } from "@unravel-code/core";
+import type { AuthMode, Detail, Mode } from "@unravel-code/core";
 import { detectMode } from "@unravel-code/core";
 import * as vscode from "vscode";
 import { resolveLanguage } from "./config.js";
@@ -46,6 +46,8 @@ export function createExplainCommand(
     const detail = config.get<Detail>("detail", "detailed");
     const model = config.get<string>("model", "claude-haiku-4-5");
     const contextLines = config.get<number>("contextLines", 5);
+    const auth = config.get<AuthMode>("auth", "auto");
+    const claudeCodePath = config.get<string>("claudeCodePath", "").trim();
 
     const documentLines = editor.document.getText().split("\n");
     const { contextBefore, contextAfter } = buildSelectionContext({
@@ -67,6 +69,8 @@ export function createExplainCommand(
       model,
       detail,
       mode: resolvedMode,
+      auth,
+      ...(claudeCodePath !== "" ? { claudeCodePath } : {}),
       ...(contextBefore !== undefined ? { contextBefore } : {}),
       ...(contextAfter !== undefined ? { contextAfter } : {}),
     });

@@ -11,7 +11,14 @@ export interface PanelState {
   redactedCount: number;
 }
 
-export type ErrorKind = "missing-key" | "auth" | "rate-limit" | "network" | "unknown";
+export type ErrorKind =
+  | "missing-key"
+  | "auth"
+  | "rate-limit"
+  | "network"
+  | "claude-code-missing"
+  | "claude-code-auth"
+  | "unknown";
 
 export type ExtensionToWebviewMessage =
   | { type: "init"; state: PanelState }

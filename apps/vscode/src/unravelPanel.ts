@@ -1,7 +1,8 @@
-import type { ExplainRequest } from "@unravel-code/core";
+import type { AuthMode, ExplainOptions, ExplainRequest } from "@unravel-code/core";
 import { explain, redactSecrets } from "@unravel-code/core";
 import * as vscode from "vscode";
 import { getApiKey, setApiKeyCommand } from "./apiKey.js";
+import { requiresApiKey } from "./config.js";
 import { classifyError } from "./errorClassification.js";
 import type {
   ExtensionToWebviewMessage,
@@ -23,6 +24,8 @@ export interface RunParams {
   model: string;
   mode: PanelMode;
   detail: PanelDetail;
+  auth: AuthMode;
+  claudeCodePath?: string;
 }
 
 export class UnravelPanel {
@@ -109,7 +112,7 @@ export class UnravelPanel {
     this.post({ type: "init", state });
 
     const apiKey = await getApiKey(this.secrets);
-    if (!apiKey) {
+    if (requiresApiKey(params.auth, Boolean(apiKey)) && !apiKey) {
       this.post({
         type: "error",
         kind: "missing-key",
@@ -131,7 +134,12 @@ export class UnravelPanel {
     };
 
     try {
-      for await (const chunk of explain(request, { apiKey })) {
+      const explainOptions: ExplainOptions = {
+        auth: params.auth,
+        ...(apiKey ? { apiKey } : {}),
+        ...(params.claudeCodePath ? { claudeCodePath: params.claudeCodePath } : {}),
+      };
+      for await (const chunk of explain(request, explainOptions)) {
         if (controller.signal.aborted) break;
         this.fullText += chunk;
         this.post({ type: "chunk", text: chunk });
