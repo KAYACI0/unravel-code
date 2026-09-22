@@ -69,7 +69,7 @@
           "enumDescriptions": [
             "Use the locally installed Claude Code and your Claude subscription. No API key needed.",
             "Use the locally installed OpenAI Codex and your ChatGPT subscription. No API key needed. Note: the answer appears all at once rather than streaming.",
-            "Use whatever language model the editor provides (e.g. GitHub Copilot, including its free tier). No API key needed.",
+            "Use a model registered by another extension - e.g. the official ChatGPT extension (your ChatGPT subscription) or GitHub Copilot, including its free tier. No API key needed.",
             "Use a stored API key when there is one, otherwise Claude Code.",
             "Always use the Anthropic API key stored in SecretStorage."
           ],
@@ -90,6 +90,11 @@
           "type": "string",
           "default": "",
           "description": "Model for Codex mode. Leave empty to use whatever Codex itself is configured with; unravelCode.model only applies to the Claude paths."
+        },
+        "unravelCode.lmPreferred": {
+          "type": "string",
+          "default": "",
+          "description": "In 'vscodeLm' mode, which provider to prefer. Matched against the model's vendor and family, e.g. 'openai' for the ChatGPT extension, 'copilot', or 'claude'. Leave empty to pick automatically."
         },
         "unravelCode.language": {
           "type": "string",

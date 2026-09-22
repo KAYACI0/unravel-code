@@ -29,6 +29,7 @@ export interface RunParams {
   claudeCodePath?: string;
   codexPath?: string;
   codexModel?: string;
+  lmPreferred?: string;
 }
 
 export class UnravelPanel {
@@ -143,7 +144,9 @@ export class UnravelPanel {
         ...(params.claudeCodePath ? { claudeCodePath: params.claudeCodePath } : {}),
         ...(params.codexPath ? { codexPath: params.codexPath } : {}),
         ...(params.codexModel ? { codexModel: params.codexModel } : {}),
-        ...(params.auth === "vscodeLm" ? { provider: createVsCodeLmProvider() } : {}),
+        ...(params.auth === "vscodeLm"
+          ? { provider: createVsCodeLmProvider({ preferred: params.lmPreferred ?? "" }) }
+          : {}),
       };
       for await (const chunk of explain(request, explainOptions)) {
         if (controller.signal.aborted) break;

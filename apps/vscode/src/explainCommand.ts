@@ -50,6 +50,7 @@ export function createExplainCommand(
     const claudeCodePath = config.get<string>("claudeCodePath", "").trim();
     const codexPath = config.get<string>("codexPath", "").trim();
     const codexModel = config.get<string>("codexModel", "").trim();
+    const lmPreferred = config.get<string>("lmPreferred", "").trim();
 
     const documentLines = editor.document.getText().split("\n");
     const { contextBefore, contextAfter } = buildSelectionContext({
@@ -75,6 +76,7 @@ export function createExplainCommand(
       ...(claudeCodePath !== "" ? { claudeCodePath } : {}),
       ...(codexPath !== "" ? { codexPath } : {}),
       ...(codexModel !== "" ? { codexModel } : {}),
+      ...(lmPreferred !== "" ? { lmPreferred } : {}),
       ...(contextBefore !== undefined ? { contextBefore } : {}),
       ...(contextAfter !== undefined ? { contextAfter } : {}),
     });

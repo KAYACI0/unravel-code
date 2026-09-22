@@ -24,11 +24,11 @@ function translateError(err: unknown): Error {
   return err instanceof Error ? err : new Error(String(err));
 }
 
-export function createVsCodeLmProvider(): Provider {
+export function createVsCodeLmProvider(options: { preferred?: string } = {}): Provider {
   return {
     async *stream(req: StreamCompletionRequest): AsyncGenerator<string> {
       const models = await vscode.lm.selectChatModels();
-      const model = pickModel(models);
+      const model = pickModel(models, options.preferred ?? "");
       if (!model) throw new LanguageModelUnavailableError();
 
       // The Language Model API has no system role — only User and Assistant —

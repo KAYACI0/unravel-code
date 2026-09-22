@@ -27,27 +27,25 @@ Kimlik bilgisi Claude Code'a aittir, Unravel onu ne görür ne saklar.
 **B) ChatGPT aboneliğinizle (API key yok)**
 
 1. Eklentiyi kurun.
-2. [Codex CLI](https://developers.openai.com/codex)'ı kurun (`npm i -g @openai/codex`), `codex login`
-   ile ChatGPT hesabınızla giriş yapın.
-3. Ayarlardan `unravelCode.auth` değerini `codex` yapın.
+2. VS Code'a resmî **ChatGPT** eklentisini kurun (`openai.chatgpt`) ve ChatGPT hesabınızla giriş yapın.
+3. Ayarlardan `unravelCode.auth` → `vscodeLm`, `unravelCode.lmPreferred` → `openai`.
 4. Kod seçin → `Ctrl+Alt+U`.
 
-> **Dikkat:** `codex exec --json` metni parça parça vermiyor; cevap tek seferde,
-> tamamlandığında görünür. Yani bu modda akış yoktur, panel cevap hazır olana
-> kadar bekler. Diğer modlarda akış çalışmaya devam eder.
+Ayrı bir CLI kurmanız gerekmez. ChatGPT eklentisi modellerini VS Code'un Language Model
+API'sine kaydeder, Unravel da oradan alır. Akış çalışır.
 
-**C) Editörün kendi modeliyle (API key yok)**
+> Alternatif: Codex CLI'ı tercih ederseniz `npm i -g @openai/codex` + `codex login` kurup
+> `unravelCode.auth` değerini `codex` yapabilirsiniz. Ama o modda akış yoktur (aşağıya bakın),
+> bu yüzden yukarıdaki yol önerilir.
 
-1. Eklentiyi kurun.
-2. Ayarlardan `unravelCode.auth` değerini `vscodeLm` yapın.
-3. Kod seçin → `Ctrl+Alt+U`. İlk seferde VS Code bir izin penceresi gösterir.
+**C) Editörün başka bir modeliyle (API key yok)**
 
-VS Code'da hangi model sağlayıcısı kuruluysa onu kullanır. GitHub Copilot'ın
-**ücretsiz katmanı** bunun için yeterlidir; kart istemez. Varsa Claude ailesinden
-bir model tercih edilir, yoksa mevcut olan kullanılır.
+`unravelCode.auth` → `vscodeLm`, `unravelCode.lmPreferred` boş ya da `copilot`. VS Code'da hangi
+model sağlayıcısı kuruluysa onu kullanır. GitHub Copilot'ın **ücretsiz katmanı** bunun için
+yeterlidir; kart istemez.
 
-> **Dikkat:** Copilot Free ayda 50 chat isteğiyle sınırlıdır ve Unravel'ın
-> istekleri de aynı kotadan düşer. Yoğun kullanacaksanız A veya C'ye geçin.
+> **Dikkat:** Copilot Free ayda 50 chat isteğiyle sınırlıdır ve Unravel'ın istekleri de aynı
+> kotadan düşer.
 
 **D) Anthropic API key ile**
 
@@ -59,10 +57,10 @@ Varsayılan `unravelCode.auth` ayarı **`claudeCode`** — yani kutudan çıktı
 kullanır, API key'le uğraşmanız gerekmez. Key kullanmak isterseniz ayarı `apiKey` yapın; `auto`
 ise kayıtlı key varsa onu, yoksa Claude Code'u seçer.
 
-**Hangisini seçmeli:** Claude aboneliğiniz varsa A (varsayılan, ek ücret yok, akış çalışır).
-ChatGPT aboneliğiniz varsa B — ama akış yoktur. İkisi de yoksa C ücretsiz başlangıç sunar,
-kotası dardır. D en hızlısıdır (ilk kelime ~0.6s; A ~2s, çünkü ~1.4s'i Claude Code'un
-açılışıdır) ama kullandıkça ödersiniz.
+**Hangisini seçmeli:** Claude aboneliğiniz varsa A (varsayılan, ek ücret yok). ChatGPT
+aboneliğiniz varsa B. İkisi de yoksa C ücretsiz başlangıç sunar ama kotası dardır. D en
+hızlısıdır (ilk kelime ~0.6s; A ~2s, çünkü ~1.4s'i Claude Code'un açılışıdır) ama kullandıkça
+ödersiniz.
 
 ## Ekran görüntüleri
 
@@ -88,6 +86,7 @@ açılışıdır) ama kullandıkça ödersiniz.
 | `unravelCode.auth` | `claudeCode`, `codex`, `vscodeLm`, `auto`, `apiKey` | `claudeCode` | Kimlik kaynağı. Varsayılan, yerel Claude Code'u ve Claude aboneliğinizi kullanır; `codex` ChatGPT aboneliğinizi, `vscodeLm` editörün modelini. |
 | `unravelCode.codexPath` | yol | `""` | Codex çalıştırılabilirinin yolu. Boşsa otomatik bulunur. |
 | `unravelCode.codexModel` | model adı | `""` | `codex` modunda kullanılacak model. Boşsa Codex'in kendi ayarı geçerlidir. |
+| `unravelCode.lmPreferred` | `openai`, `copilot`, `claude`… | `""` | `vscodeLm` modunda hangi sağlayıcı tercih edilsin. Model'in vendor ve family adıyla eşleştirilir. |
 | `unravelCode.claudeCodePath` | yol | `""` | Claude Code çalıştırılabilirinin yolu. Boşsa otomatik bulunur. |
 | `unravelCode.language` | `auto`, `tr`, `en` | `auto` | Açıklama dili. `auto`, VS Code arayüz dilini takip eder. |
 | `unravelCode.detail` | `brief`, `detailed` | `detailed` | Açıklamanın derinliği. |
