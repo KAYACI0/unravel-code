@@ -1,5 +1,5 @@
 {
-  "name": "unravel-code",
+  "name": "unravel-code-monorepo",
   "private": true,
   "version": "0.0.0",
   "license": "MIT",
@@ -12,10 +12,14 @@
     "test": "vitest run",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "typecheck": "pnpm -r run typecheck"
+    "typecheck": "pnpm -r run typecheck",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release:tag": "node scripts/release-tag.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^3.0.3",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   }

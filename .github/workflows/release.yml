@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  # Lets a release be re-run from the Actions tab if a tag push failed midway.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to release (e.g. v0.0.2)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    # `secrets` is not an allowed context in a step-level `if`, so the tokens are
+    # mapped to env vars here and the optional publish steps check those instead.
+    # vsce and ovsx both read these env vars directly, so no --pat flag is needed.
+    env:
+      VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      OVSX_PAT: ${{ secrets.OVSX_PAT }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all workspace packages
+        run: pnpm build
+
+      - name: Verify apps/vscode's package.json version matches the tag
+        working-directory: apps/vscode
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          TAG_VERSION="${TAG#v}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Tag v$TAG_VERSION does not match apps/vscode package.json version $PKG_VERSION"
+            exit 1
+          fi
+
+      - name: Package .vsix
+        working-directory: apps/vscode
+        run: pnpm exec vsce package --no-dependencies --no-yarn
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          files: apps/vscode/*.vsix
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Runs only when VSCE_PAT is configured in the repo's secrets (Settings > Secrets
+      # and variables > Actions). Skipped otherwise so forks/early releases don't fail CI.
+      - name: Publish to Visual Studio Marketplace
+        if: ${{ env.VSCE_PAT != '' }}
+        working-directory: apps/vscode
+        run: pnpm exec vsce publish --packagePath *.vsix
+
+      # Runs only when OVSX_PAT is configured in the repo's secrets.
+      - name: Publish to Open VSX
+        if: ${{ env.OVSX_PAT != '' }}
+        working-directory: apps/vscode
+        run: pnpm dlx ovsx publish *.vsix
