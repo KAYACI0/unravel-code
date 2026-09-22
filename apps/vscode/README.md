@@ -24,7 +24,19 @@ Seçtiğiniz kodu veya regex ifadesini Türkçe ya da İngilizce olarak adım ad
 Unravel isteği yerel Claude Code'unuza devreder; faturayı Claude aboneliğiniz karşılar.
 Kimlik bilgisi Claude Code'a aittir, Unravel onu ne görür ne saklar.
 
-**B) Editörün kendi modeliyle (API key yok)**
+**B) ChatGPT aboneliğinizle (API key yok)**
+
+1. Eklentiyi kurun.
+2. [Codex CLI](https://developers.openai.com/codex)'ı kurun (`npm i -g @openai/codex`), `codex login`
+   ile ChatGPT hesabınızla giriş yapın.
+3. Ayarlardan `unravelCode.auth` değerini `codex` yapın.
+4. Kod seçin → `Ctrl+Alt+U`.
+
+> **Dikkat:** `codex exec --json` metni parça parça vermiyor; cevap tek seferde,
+> tamamlandığında görünür. Yani bu modda akış yoktur, panel cevap hazır olana
+> kadar bekler. Diğer modlarda akış çalışmaya devam eder.
+
+**C) Editörün kendi modeliyle (API key yok)**
 
 1. Eklentiyi kurun.
 2. Ayarlardan `unravelCode.auth` değerini `vscodeLm` yapın.
@@ -37,7 +49,7 @@ bir model tercih edilir, yoksa mevcut olan kullanılır.
 > **Dikkat:** Copilot Free ayda 50 chat isteğiyle sınırlıdır ve Unravel'ın
 > istekleri de aynı kotadan düşer. Yoğun kullanacaksanız A veya C'ye geçin.
 
-**C) Anthropic API key ile**
+**D) Anthropic API key ile**
 
 1. Eklentiyi kurun.
 2. `Ctrl+Shift+P` (macOS: `Cmd+Shift+P`) → **Unravel: Set API Key** → [Anthropic Console](https://console.anthropic.com/)'dan aldığınız key'i yapıştırın.
@@ -47,9 +59,10 @@ Varsayılan `unravelCode.auth` ayarı **`claudeCode`** — yani kutudan çıktı
 kullanır, API key'le uğraşmanız gerekmez. Key kullanmak isterseniz ayarı `apiKey` yapın; `auto`
 ise kayıtlı key varsa onu, yoksa Claude Code'u seçer.
 
-**Hangisini seçmeli:** Claude aboneliğiniz varsa A (varsayılan, ek ücret yok). Yoksa B ücretsiz
-başlangıç sunar ama aylık kotası dardır. C en hızlısıdır (ilk kelime ~0.6s; A ~2s, çünkü ~1.4s'i
-Claude Code'un açılışıdır) ama kullandıkça ödersiniz.
+**Hangisini seçmeli:** Claude aboneliğiniz varsa A (varsayılan, ek ücret yok, akış çalışır).
+ChatGPT aboneliğiniz varsa B — ama akış yoktur. İkisi de yoksa C ücretsiz başlangıç sunar,
+kotası dardır. D en hızlısıdır (ilk kelime ~0.6s; A ~2s, çünkü ~1.4s'i Claude Code'un
+açılışıdır) ama kullandıkça ödersiniz.
 
 ## Ekran görüntüleri
 
@@ -62,7 +75,7 @@ Claude Code'un açılışıdır) ama kullandıkça ödersiniz.
 ## Gizlilik
 
 - Seçtiğiniz kod (ve varsa ±N satır çevre kod) açıklama üretmek için **Anthropic'e** gönderilir: API key modunda doğrudan API'ye, Claude Code modunda yerel Claude Code üzerinden. Aracı bir backend yoktur.
-- Claude Code modunda seçiminiz child process'e **stdin ile** verilir, komut satırı argümanı olarak değil — yani process listesinde görünmez. Claude Code tarafında araçlar (Bash, Read, Write, WebFetch...) kapatılır ve MCP sunucuları devre dışı bırakılır; istek nötr bir çalışma dizininde koşar, böylece projenizin `CLAUDE.md`'si isteğe karışmaz.
+- Claude Code ve Codex modlarında seçiminiz child process'e **stdin ile** verilir, komut satırı argümanı olarak değil — yani process listesinde görünmez. Claude Code tarafında araçlar (Bash, Read, Write, WebFetch...) kapatılır ve MCP sunucuları devre dışı bırakılır; istek nötr bir çalışma dizininde koşar, böylece projenizin `CLAUDE.md`'si isteğe karışmaz.
 - Göndermeden önce bilinen secret kalıpları (API key, token, private key, `password=` vb.) otomatik olarak maskelenir (`redactSecrets`); panelde kaç değerin maskelendiği gösterilir. Bu adım kapatılamaz.
 - **Telemetri yoktur.** Kullanım, hata veya kod içeriği hiçbir yere loglanmaz veya gönderilmez.
 - API key'iniz yalnızca VS Code'un `SecretStorage`'ında saklanır; `settings.json`'a, repoya veya herhangi bir log'a asla yazılmaz.
@@ -72,7 +85,9 @@ Claude Code'un açılışıdır) ama kullandıkça ödersiniz.
 
 | Ayar | Değerler | Varsayılan | Açıklama |
 | --- | --- | --- | --- |
-| `unravelCode.auth` | `claudeCode`, `vscodeLm`, `auto`, `apiKey` | `claudeCode` | Kimlik kaynağı. Varsayılan, yerel Claude Code'u ve aboneliğinizi kullanır; `vscodeLm` editörün modelini kullanır. |
+| `unravelCode.auth` | `claudeCode`, `codex`, `vscodeLm`, `auto`, `apiKey` | `claudeCode` | Kimlik kaynağı. Varsayılan, yerel Claude Code'u ve Claude aboneliğinizi kullanır; `codex` ChatGPT aboneliğinizi, `vscodeLm` editörün modelini. |
+| `unravelCode.codexPath` | yol | `""` | Codex çalıştırılabilirinin yolu. Boşsa otomatik bulunur. |
+| `unravelCode.codexModel` | model adı | `""` | `codex` modunda kullanılacak model. Boşsa Codex'in kendi ayarı geçerlidir. |
 | `unravelCode.claudeCodePath` | yol | `""` | Claude Code çalıştırılabilirinin yolu. Boşsa otomatik bulunur. |
 | `unravelCode.language` | `auto`, `tr`, `en` | `auto` | Açıklama dili. `auto`, VS Code arayüz dilini takip eder. |
 | `unravelCode.detail` | `brief`, `detailed` | `detailed` | Açıklamanın derinliği. |

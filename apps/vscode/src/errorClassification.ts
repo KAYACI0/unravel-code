@@ -2,6 +2,8 @@ import {
   AuthError,
   ClaudeCliAuthError,
   ClaudeCliNotFoundError,
+  CodexCliAuthError,
+  CodexCliNotFoundError,
   LanguageModelUnavailableError,
   MissingApiKeyError,
   NetworkError,
@@ -19,6 +21,8 @@ export function classifyError(err: unknown): ClassifiedError {
   if (err instanceof ClaudeCliNotFoundError)
     return { kind: "claude-code-missing", message: err.message };
   if (err instanceof ClaudeCliAuthError) return { kind: "claude-code-auth", message: err.message };
+  if (err instanceof CodexCliNotFoundError) return { kind: "codex-missing", message: err.message };
+  if (err instanceof CodexCliAuthError) return { kind: "codex-auth", message: err.message };
   if (err instanceof LanguageModelUnavailableError)
     return { kind: "lm-unavailable", message: err.message };
   if (err instanceof AuthError) return { kind: "auth", message: err.message };

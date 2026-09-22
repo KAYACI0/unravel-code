@@ -65,9 +65,10 @@
       "properties": {
         "unravelCode.auth": {
           "type": "string",
-          "enum": ["claudeCode", "vscodeLm", "auto", "apiKey"],
+          "enum": ["claudeCode", "codex", "vscodeLm", "auto", "apiKey"],
           "enumDescriptions": [
             "Use the locally installed Claude Code and your Claude subscription. No API key needed.",
+            "Use the locally installed OpenAI Codex and your ChatGPT subscription. No API key needed. Note: the answer appears all at once rather than streaming.",
             "Use whatever language model the editor provides (e.g. GitHub Copilot, including its free tier). No API key needed.",
             "Use a stored API key when there is one, otherwise Claude Code.",
             "Always use the Anthropic API key stored in SecretStorage."
@@ -79,6 +80,16 @@
           "type": "string",
           "default": "",
           "description": "Absolute path to the Claude Code executable. Leave empty to detect it automatically."
+        },
+        "unravelCode.codexPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the Codex executable. Leave empty to detect it automatically."
+        },
+        "unravelCode.codexModel": {
+          "type": "string",
+          "default": "",
+          "description": "Model for Codex mode. Leave empty to use whatever Codex itself is configured with; unravelCode.model only applies to the Claude paths."
         },
         "unravelCode.language": {
           "type": "string",

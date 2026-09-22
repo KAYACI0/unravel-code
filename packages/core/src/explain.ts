@@ -8,6 +8,7 @@ import { buildLegacySystemPrompt } from "./prompts/legacy.js";
 import { buildRegexSystemPrompt } from "./prompts/regex.js";
 import { createAnthropicProvider } from "./provider/anthropic.js";
 import { createClaudeCliProvider } from "./provider/claude-cli.js";
+import { createCodexCliProvider } from "./provider/codex-cli.js";
 import type { Provider } from "./provider/types.js";
 import { redactSecrets } from "./redact.js";
 import type { ExplainOptions, ExplainRequest } from "./types.js";

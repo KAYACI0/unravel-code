@@ -64,6 +64,32 @@ export class ClaudeCliError extends Error {
   }
 }
 
+export class CodexCliNotFoundError extends Error {
+  constructor() {
+    super(
+      "OpenAI Codex was not found. Install it (npm i -g @openai/codex), " +
+        "or switch Unravel to another auth mode.",
+    );
+    this.name = "CodexCliNotFoundError";
+  }
+}
+
+export class CodexCliAuthError extends Error {
+  constructor() {
+    super("Codex is not signed in. Run `codex login` and sign in with your ChatGPT account.");
+    this.name = "CodexCliAuthError";
+  }
+}
+
+export class CodexCliError extends Error {
+  // `detail` is CLI stderr, which never carries the user's selection or any
+  // credential -- the prompt goes over stdin.
+  constructor(detail?: string) {
+    super(detail && detail.trim() !== "" ? `Codex failed: ${detail.trim()}` : "Codex failed.");
+    this.name = "CodexCliError";
+  }
+}
+
 export class LanguageModelUnavailableError extends Error {
   constructor(detail?: string) {
     super(
@@ -84,4 +110,7 @@ export type ExplainError =
   | ClaudeCliNotFoundError
   | ClaudeCliAuthError
   | ClaudeCliError
-  | LanguageModelUnavailableError;
+  | LanguageModelUnavailableError
+  | CodexCliNotFoundError
+  | CodexCliAuthError
+  | CodexCliError;

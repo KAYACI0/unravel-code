@@ -19,6 +19,8 @@ export type ErrorKind =
   | "claude-code-missing"
   | "claude-code-auth"
   | "lm-unavailable"
+  | "codex-missing"
+  | "codex-auth"
   | "unknown";
 
 export type ExtensionToWebviewMessage =

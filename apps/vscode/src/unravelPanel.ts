@@ -27,6 +27,8 @@ export interface RunParams {
   detail: PanelDetail;
   auth: AuthMode;
   claudeCodePath?: string;
+  codexPath?: string;
+  codexModel?: string;
 }
 
 export class UnravelPanel {
@@ -139,6 +141,8 @@ export class UnravelPanel {
         auth: params.auth,
         ...(apiKey ? { apiKey } : {}),
         ...(params.claudeCodePath ? { claudeCodePath: params.claudeCodePath } : {}),
+        ...(params.codexPath ? { codexPath: params.codexPath } : {}),
+        ...(params.codexModel ? { codexModel: params.codexModel } : {}),
         ...(params.auth === "vscodeLm" ? { provider: createVsCodeLmProvider() } : {}),
       };
       for await (const chunk of explain(request, explainOptions)) {
