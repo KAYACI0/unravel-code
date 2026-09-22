@@ -71,8 +71,8 @@
             "Always use the locally installed Claude Code and its subscription. No API key needed.",
             "Always use the Anthropic API key stored in SecretStorage."
           ],
-          "default": "auto",
-          "description": "Where the credential comes from. 'claudeCode' bills your Claude subscription through a locally installed Claude Code; nothing is stored by Unravel."
+          "default": "claudeCode",
+          "description": "Where the credential comes from. The default 'claudeCode' uses a locally installed Claude Code and bills your Claude subscription - no API key, nothing for Unravel to store."
         },
         "unravelCode.claudeCodePath": {
           "type": "string",

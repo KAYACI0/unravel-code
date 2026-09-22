@@ -30,7 +30,9 @@ Kimlik bilgisi Claude Code'a aittir, Unravel onu ne görür ne saklar.
 2. `Ctrl+Shift+P` (macOS: `Cmd+Shift+P`) → **Unravel: Set API Key** → [Anthropic Console](https://console.anthropic.com/)'dan aldığınız key'i yapıştırın.
 3. Kod seçin → `Ctrl+Alt+U`.
 
-Varsayılan `unravelCode.auth` ayarı `auto`: kayıtlı bir key varsa onu, yoksa Claude Code'u kullanır.
+Varsayılan `unravelCode.auth` ayarı **`claudeCode`** — yani kutudan çıktığı hâliyle abonelik yolunu
+kullanır, API key'le uğraşmanız gerekmez. Key kullanmak isterseniz ayarı `apiKey` yapın; `auto`
+ise kayıtlı key varsa onu, yoksa Claude Code'u seçer.
 
 **Hangisini seçmeli:** API key yolu ilk kelimeyi ~0.6 saniyede gösterir; Claude Code yolu ~2 saniye
 (bunun ~1.4 saniyesi Claude Code'un kendi açılışıdır). Hız önemliyse key, ek fatura istemiyorsanız
@@ -57,7 +59,7 @@ abonelik yolu.
 
 | Ayar | Değerler | Varsayılan | Açıklama |
 | --- | --- | --- | --- |
-| `unravelCode.auth` | `auto`, `claudeCode`, `apiKey` | `auto` | Kimlik kaynağı. `claudeCode` yerel Claude Code'u ve aboneliğinizi kullanır. |
+| `unravelCode.auth` | `auto`, `claudeCode`, `apiKey` | `claudeCode` | Kimlik kaynağı. Varsayılan, yerel Claude Code'u ve aboneliğinizi kullanır. |
 | `unravelCode.claudeCodePath` | yol | `""` | Claude Code çalıştırılabilirinin yolu. Boşsa otomatik bulunur. |
 | `unravelCode.language` | `auto`, `tr`, `en` | `auto` | Açıklama dili. `auto`, VS Code arayüz dilini takip eder. |
 | `unravelCode.detail` | `brief`, `detailed` | `detailed` | Açıklamanın derinliği. |

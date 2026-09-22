@@ -46,7 +46,7 @@ export function createExplainCommand(
     const detail = config.get<Detail>("detail", "detailed");
     const model = config.get<string>("model", "claude-haiku-4-5");
     const contextLines = config.get<number>("contextLines", 5);
-    const auth = config.get<AuthMode>("auth", "auto");
+    const auth = config.get<AuthMode>("auth", "claudeCode");
     const claudeCodePath = config.get<string>("claudeCodePath", "").trim();
 
     const documentLines = editor.document.getText().split("\n");
