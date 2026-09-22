@@ -6,11 +6,23 @@ import { buildCodeSystemPrompt } from "./prompts/code.js";
 import { buildLegacySystemPrompt } from "./prompts/legacy.js";
 import { buildRegexSystemPrompt } from "./prompts/regex.js";
 import { createAnthropicProvider } from "./provider/anthropic.js";
+import { createClaudeCliProvider } from "./provider/claude-cli.js";
 import type { Provider } from "./provider/types.js";
 import { redactSecrets } from "./redact.js";
 import type { ExplainOptions, ExplainRequest } from "./types.js";
 
-const provider: Provider = createAnthropicProvider();
+const anthropicProvider: Provider = createAnthropicProvider();
+
+/**
+ * "auto" only falls back to the API key when one is actually present —
+ * otherwise Claude Code is the better failure, because its error tells the
+ * user how to sign in instead of asking for a key they may not have.
+ */
+function selectProvider(opts: ExplainOptions): Provider {
+  const mode = opts.auth ?? "apiKey";
+  const useCli = mode === "claudeCode" || (mode === "auto" && !opts.apiKey);
+  return useCli ? createClaudeCliProvider({ command: opts.claudeCodePath }) : anthropicProvider;
+}
 
 function resolveLang(lang: ExplainRequest["lang"]): ResolvedLang {
   if (lang === "tr" || lang === "en") return lang;
@@ -44,7 +56,7 @@ export async function* explain(req: ExplainRequest, opts: ExplainOptions): Async
     contextAfter: redactedContextAfter,
   });
 
-  yield* provider.stream({
+  yield* selectProvider(opts).stream({
     apiKey: opts.apiKey,
     model: req.model ?? DEFAULT_MODEL,
     system,

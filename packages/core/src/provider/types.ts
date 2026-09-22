@@ -1,5 +1,6 @@
 export interface StreamCompletionRequest {
-  apiKey: string;
+  /** Required for `apiKey` auth; ignored when Claude Code supplies the credential. */
+  apiKey?: string | undefined;
   model: string;
   system: string;
   userMessage: string;

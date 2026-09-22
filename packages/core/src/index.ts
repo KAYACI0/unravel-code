@@ -4,6 +4,7 @@ export { redactSecrets } from "./redact.js";
 export type { RedactResult } from "./redact.js";
 export { explain } from "./explain.js";
 export type {
+  AuthMode,
   Detail,
   ExplainOptions,
   ExplainRequest,
@@ -13,8 +14,12 @@ export type {
 export {
   AbortedError,
   AuthError,
+  ClaudeCliAuthError,
+  ClaudeCliError,
+  ClaudeCliNotFoundError,
   MissingApiKeyError,
   NetworkError,
   RateLimitError,
 } from "./errors.js";
 export type { ExplainError } from "./errors.js";
+export { resolveClaudeCommand } from "./provider/claude-cli-resolve.js";

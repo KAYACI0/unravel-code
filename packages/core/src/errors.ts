@@ -34,9 +34,42 @@ export class AbortedError extends Error {
   }
 }
 
+export class ClaudeCliNotFoundError extends Error {
+  constructor() {
+    super(
+      "Claude Code was not found. Install it from https://claude.com/claude-code, " +
+        "or switch Unravel to API key mode.",
+    );
+    this.name = "ClaudeCliNotFoundError";
+  }
+}
+
+export class ClaudeCliAuthError extends Error {
+  constructor() {
+    super("Claude Code is not signed in. Run `claude` once and log in, then try again.");
+    this.name = "ClaudeCliAuthError";
+  }
+}
+
+export class ClaudeCliError extends Error {
+  // `detail` is CLI stderr, which may name file paths but never carries the
+  // user's selection or any credential — the prompt goes over stdin.
+  constructor(detail?: string) {
+    super(
+      detail && detail.trim() !== ""
+        ? `Claude Code failed: ${detail.trim()}`
+        : "Claude Code failed.",
+    );
+    this.name = "ClaudeCliError";
+  }
+}
+
 export type ExplainError =
   | MissingApiKeyError
   | AuthError
   | RateLimitError
   | NetworkError
-  | AbortedError;
+  | AbortedError
+  | ClaudeCliNotFoundError
+  | ClaudeCliAuthError
+  | ClaudeCliError;
