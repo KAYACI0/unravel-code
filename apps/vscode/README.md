@@ -24,7 +24,20 @@ Seçtiğiniz kodu veya regex ifadesini Türkçe ya da İngilizce olarak adım ad
 Unravel isteği yerel Claude Code'unuza devreder; faturayı Claude aboneliğiniz karşılar.
 Kimlik bilgisi Claude Code'a aittir, Unravel onu ne görür ne saklar.
 
-**B) Anthropic API key ile**
+**B) Editörün kendi modeliyle (API key yok)**
+
+1. Eklentiyi kurun.
+2. Ayarlardan `unravelCode.auth` değerini `vscodeLm` yapın.
+3. Kod seçin → `Ctrl+Alt+U`. İlk seferde VS Code bir izin penceresi gösterir.
+
+VS Code'da hangi model sağlayıcısı kuruluysa onu kullanır. GitHub Copilot'ın
+**ücretsiz katmanı** bunun için yeterlidir; kart istemez. Varsa Claude ailesinden
+bir model tercih edilir, yoksa mevcut olan kullanılır.
+
+> **Dikkat:** Copilot Free ayda 50 chat isteğiyle sınırlıdır ve Unravel'ın
+> istekleri de aynı kotadan düşer. Yoğun kullanacaksanız A veya C'ye geçin.
+
+**C) Anthropic API key ile**
 
 1. Eklentiyi kurun.
 2. `Ctrl+Shift+P` (macOS: `Cmd+Shift+P`) → **Unravel: Set API Key** → [Anthropic Console](https://console.anthropic.com/)'dan aldığınız key'i yapıştırın.
@@ -34,9 +47,9 @@ Varsayılan `unravelCode.auth` ayarı **`claudeCode`** — yani kutudan çıktı
 kullanır, API key'le uğraşmanız gerekmez. Key kullanmak isterseniz ayarı `apiKey` yapın; `auto`
 ise kayıtlı key varsa onu, yoksa Claude Code'u seçer.
 
-**Hangisini seçmeli:** API key yolu ilk kelimeyi ~0.6 saniyede gösterir; Claude Code yolu ~2 saniye
-(bunun ~1.4 saniyesi Claude Code'un kendi açılışıdır). Hız önemliyse key, ek fatura istemiyorsanız
-abonelik yolu.
+**Hangisini seçmeli:** Claude aboneliğiniz varsa A (varsayılan, ek ücret yok). Yoksa B ücretsiz
+başlangıç sunar ama aylık kotası dardır. C en hızlısıdır (ilk kelime ~0.6s; A ~2s, çünkü ~1.4s'i
+Claude Code'un açılışıdır) ama kullandıkça ödersiniz.
 
 ## Ekran görüntüleri
 
@@ -59,7 +72,7 @@ abonelik yolu.
 
 | Ayar | Değerler | Varsayılan | Açıklama |
 | --- | --- | --- | --- |
-| `unravelCode.auth` | `auto`, `claudeCode`, `apiKey` | `claudeCode` | Kimlik kaynağı. Varsayılan, yerel Claude Code'u ve aboneliğinizi kullanır. |
+| `unravelCode.auth` | `claudeCode`, `vscodeLm`, `auto`, `apiKey` | `claudeCode` | Kimlik kaynağı. Varsayılan, yerel Claude Code'u ve aboneliğinizi kullanır; `vscodeLm` editörün modelini kullanır. |
 | `unravelCode.claudeCodePath` | yol | `""` | Claude Code çalıştırılabilirinin yolu. Boşsa otomatik bulunur. |
 | `unravelCode.language` | `auto`, `tr`, `en` | `auto` | Açıklama dili. `auto`, VS Code arayüz dilini takip eder. |
 | `unravelCode.detail` | `brief`, `detailed` | `detailed` | Açıklamanın derinliği. |

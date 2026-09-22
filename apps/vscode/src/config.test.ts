@@ -26,6 +26,11 @@ describe("requiresApiKey", () => {
     expect(requiresApiKey("claudeCode", true)).toBe(false);
   });
 
+  it("never asks for a key in vscodeLm mode, where the editor holds the credential", () => {
+    expect(requiresApiKey("vscodeLm", false)).toBe(false);
+    expect(requiresApiKey("vscodeLm", true)).toBe(false);
+  });
+
   it("always asks for a key in apiKey mode", () => {
     expect(requiresApiKey("apiKey", false)).toBe(true);
     expect(requiresApiKey("apiKey", true)).toBe(true);
@@ -40,6 +45,7 @@ describe("requiresApiKey", () => {
 describe("resolveAuthMode", () => {
   it("honours an explicit mode regardless of the stored key", () => {
     expect(resolveAuthMode("claudeCode", true)).toBe("claudeCode");
+    expect(resolveAuthMode("vscodeLm", true)).toBe("vscodeLm");
     expect(resolveAuthMode("apiKey", false)).toBe("apiKey");
   });
 

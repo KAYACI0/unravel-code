@@ -1,3 +1,5 @@
+import type { Provider } from "./provider/types.js";
+
 export type Mode = "auto" | "code" | "regex" | "legacy";
 export type Lang = "auto" | "tr" | "en";
 export type Detail = "brief" | "detailed";
@@ -5,8 +7,10 @@ export type Detail = "brief" | "detailed";
  * Where the credential comes from. "claudeCode" drives a locally installed
  * Claude Code, so the user's subscription pays and no key is stored.
  * "auto" prefers Claude Code and falls back to an API key when one is set.
+ * "vscodeLm" defers to the host editor and requires an injected provider,
+ * because core must not import any editor API.
  */
-export type AuthMode = "auto" | "claudeCode" | "apiKey";
+export type AuthMode = "auto" | "claudeCode" | "vscodeLm" | "apiKey";
 
 export interface ExplainRequest {
   code: string;
@@ -27,4 +31,9 @@ export interface ExplainOptions {
   auth?: AuthMode | undefined;
   /** Explicit path to the Claude Code executable; resolved automatically when unset. */
   claudeCodePath?: string | undefined;
+  /**
+   * Provider supplied by the host shell. Required for "vscodeLm", where the
+   * credential belongs to the editor and core has no way to reach it.
+   */
+  provider?: Provider | undefined;
 }

@@ -2,6 +2,7 @@ import {
   AuthError,
   ClaudeCliAuthError,
   ClaudeCliNotFoundError,
+  LanguageModelUnavailableError,
   MissingApiKeyError,
   NetworkError,
   RateLimitError,
@@ -18,6 +19,8 @@ export function classifyError(err: unknown): ClassifiedError {
   if (err instanceof ClaudeCliNotFoundError)
     return { kind: "claude-code-missing", message: err.message };
   if (err instanceof ClaudeCliAuthError) return { kind: "claude-code-auth", message: err.message };
+  if (err instanceof LanguageModelUnavailableError)
+    return { kind: "lm-unavailable", message: err.message };
   if (err instanceof AuthError) return { kind: "auth", message: err.message };
   if (err instanceof RateLimitError) return { kind: "rate-limit", message: err.message };
   if (err instanceof NetworkError) return { kind: "network", message: err.message };

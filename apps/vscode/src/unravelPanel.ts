@@ -13,6 +13,7 @@ import type {
 } from "./protocol.js";
 import { parseWebviewMessage } from "./protocol.js";
 import { getCodePreview } from "./selection.js";
+import { createVsCodeLmProvider } from "./vscodeLmProvider.js";
 import { PANEL_STYLES } from "./webview/styles.js";
 
 export interface RunParams {
@@ -138,6 +139,7 @@ export class UnravelPanel {
         auth: params.auth,
         ...(apiKey ? { apiKey } : {}),
         ...(params.claudeCodePath ? { claudeCodePath: params.claudeCodePath } : {}),
+        ...(params.auth === "vscodeLm" ? { provider: createVsCodeLmProvider() } : {}),
       };
       for await (const chunk of explain(request, explainOptions)) {
         if (controller.signal.aborted) break;

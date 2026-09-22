@@ -65,10 +65,11 @@
       "properties": {
         "unravelCode.auth": {
           "type": "string",
-          "enum": ["auto", "claudeCode", "apiKey"],
+          "enum": ["claudeCode", "vscodeLm", "auto", "apiKey"],
           "enumDescriptions": [
-            "Use Claude Code when no API key is stored, otherwise use the key.",
-            "Always use the locally installed Claude Code and its subscription. No API key needed.",
+            "Use the locally installed Claude Code and your Claude subscription. No API key needed.",
+            "Use whatever language model the editor provides (e.g. GitHub Copilot, including its free tier). No API key needed.",
+            "Use a stored API key when there is one, otherwise Claude Code.",
             "Always use the Anthropic API key stored in SecretStorage."
           ],
           "default": "claudeCode",

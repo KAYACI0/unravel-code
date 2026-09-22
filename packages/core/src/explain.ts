@@ -1,3 +1,4 @@
+import { LanguageModelUnavailableError } from "./errors.js";
 import { detectMode } from "./mode.js";
 import { DEFAULT_MODEL } from "./models.js";
 import type { ResolvedLang } from "./prompts/base.js";

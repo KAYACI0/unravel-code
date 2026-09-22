@@ -21,14 +21,16 @@ export function resolveLanguage(
  * credential, and "auto" only needs a key when Claude Code is not the choice.
  */
 export function requiresApiKey(auth: AuthMode, hasStoredKey: boolean): boolean {
-  if (auth === "claudeCode") return false;
+  if (auth === "claudeCode" || auth === "vscodeLm") return false;
   if (auth === "apiKey") return true;
   return hasStoredKey;
 }
 
 /** The auth mode actually used, once the stored key is known. */
-export function resolveAuthMode(auth: AuthMode, hasStoredKey: boolean): "claudeCode" | "apiKey" {
-  if (auth === "claudeCode") return "claudeCode";
-  if (auth === "apiKey") return "apiKey";
+export function resolveAuthMode(
+  auth: AuthMode,
+  hasStoredKey: boolean,
+): "claudeCode" | "vscodeLm" | "apiKey" {
+  if (auth !== "auto") return auth;
   return hasStoredKey ? "apiKey" : "claudeCode";
 }

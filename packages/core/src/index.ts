@@ -17,9 +17,11 @@ export {
   ClaudeCliAuthError,
   ClaudeCliError,
   ClaudeCliNotFoundError,
+  LanguageModelUnavailableError,
   MissingApiKeyError,
   NetworkError,
   RateLimitError,
 } from "./errors.js";
 export type { ExplainError } from "./errors.js";
 export { resolveClaudeCommand } from "./provider/claude-cli-resolve.js";
+export type { Provider, StreamCompletionRequest } from "./provider/types.js";

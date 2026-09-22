@@ -64,6 +64,17 @@ export class ClaudeCliError extends Error {
   }
 }
 
+export class LanguageModelUnavailableError extends Error {
+  constructor(detail?: string) {
+    super(
+      detail && detail.trim() !== ""
+        ? `No usable editor language model: ${detail.trim()}`
+        : "No language model is available in the editor. Sign in to a model provider, or switch Unravel to Claude Code.",
+    );
+    this.name = "LanguageModelUnavailableError";
+  }
+}
+
 export type ExplainError =
   | MissingApiKeyError
   | AuthError
@@ -72,4 +83,5 @@ export type ExplainError =
   | AbortedError
   | ClaudeCliNotFoundError
   | ClaudeCliAuthError
-  | ClaudeCliError;
+  | ClaudeCliError
+  | LanguageModelUnavailableError;

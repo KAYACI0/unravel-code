@@ -18,6 +18,7 @@ export type ErrorKind =
   | "network"
   | "claude-code-missing"
   | "claude-code-auth"
+  | "lm-unavailable"
   | "unknown";
 
 export type ExtensionToWebviewMessage =
