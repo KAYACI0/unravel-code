@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { clearApiKeyCommand, setApiKeyCommand } from "./apiKey.js";
 import { createExplainCommand } from "./explainCommand.js";
+import { SettingsPanel } from "./settingsPanel.js";
 
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
@@ -15,6 +16,9 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand("unravelCode.clearApiKey", () =>
       clearApiKeyCommand(context.secrets),
     ),
+    vscode.commands.registerCommand("unravelCode.openSettings", () => {
+      SettingsPanel.createOrShow(context.extensionUri, context.secrets);
+    }),
   );
 }
 

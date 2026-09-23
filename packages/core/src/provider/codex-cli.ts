@@ -18,15 +18,9 @@ import {
   CodexCliNotFoundError,
 } from "../errors.js";
 import { createLineBuffer } from "./claude-cli-stream.js";
-import { resolveCliCommand } from "./cli-resolve.js";
+import { resolveCodexCommand } from "./codex-cli-resolve.js";
 import { parseCodexError, parseCodexLine } from "./codex-cli-stream.js";
 import type { Provider, StreamCompletionRequest } from "./types.js";
-
-const CODEX = {
-  posixName: "codex",
-  windowsExeName: "codex.exe",
-  npmBinSegments: ["@openai", "codex", "bin"],
-};
 
 const AUTH_HINTS = ["not logged in", "login", "unauthorized", "authenticate", "sign in", "401"];
 
@@ -63,7 +57,7 @@ export function createCodexCliProvider(
 ): Provider {
   return {
     async *stream(req: StreamCompletionRequest): AsyncGenerator<string> {
-      const command = resolveCliCommand(CODEX, { override: options.command });
+      const command = resolveCodexCommand({ override: options.command });
 
       const child = spawn(command, buildArgs(options.model), {
         shell: false,

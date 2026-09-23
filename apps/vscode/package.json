@@ -36,6 +36,11 @@
       {
         "command": "unravelCode.clearApiKey",
         "title": "Unravel: Clear API Key"
+      },
+      {
+        "command": "unravelCode.openSettings",
+        "title": "Unravel: Open Settings",
+        "icon": "$(gear)"
       }
     ],
     "menus": {
@@ -49,6 +54,13 @@
           "command": "unravelCode.explainRegex",
           "when": "editorHasSelection",
           "group": "unravel"
+        }
+      ],
+      "webview/title": [
+        {
+          "command": "unravelCode.openSettings",
+          "when": "webviewId == 'unravelCode.panel'",
+          "group": "navigation"
         }
       ]
     },

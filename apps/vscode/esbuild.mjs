@@ -27,13 +27,30 @@ const webviewOptions = {
   minify: !watch,
 };
 
+/** @type {import("esbuild").BuildOptions} */
+const settingsWebviewOptions = {
+  entryPoints: ["src/webview/settingsMain.ts"],
+  bundle: true,
+  outfile: "dist/webview/settings.js",
+  format: "iife",
+  platform: "browser",
+  target: "es2020",
+  sourcemap: true,
+  minify: !watch,
+};
+
 if (watch) {
-  const [extensionCtx, webviewCtx] = await Promise.all([
+  const [extensionCtx, webviewCtx, settingsCtx] = await Promise.all([
     context(extensionOptions),
     context(webviewOptions),
+    context(settingsWebviewOptions),
   ]);
-  await Promise.all([extensionCtx.watch(), webviewCtx.watch()]);
+  await Promise.all([extensionCtx.watch(), webviewCtx.watch(), settingsCtx.watch()]);
   console.log("esbuild: watching for changes...");
 } else {
-  await Promise.all([build(extensionOptions), build(webviewOptions)]);
+  await Promise.all([
+    build(extensionOptions),
+    build(webviewOptions),
+    build(settingsWebviewOptions),
+  ]);
 }

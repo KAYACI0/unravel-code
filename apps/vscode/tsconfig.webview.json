@@ -1,12 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2022", "DOM"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "outDir": "out/webview",
     "rootDir": "src",
     "types": []
   },
-  "include": ["src/webview", "src/protocol.ts"]
+  "include": ["src/webview", "src/protocol.ts", "src/settingsProtocol.ts"]
 }

@@ -53,6 +53,11 @@ the panel; you don't have to select anything again.
 
 ## Setup
 
+Open **Unravel: Open Settings** from the Command Palette (or the gear icon in the Unravel panel's
+title bar) for a visual picker — it shows what's actually installed on your machine and lets you
+choose with one click, no `settings.json` editing required. The steps below describe the same
+choices manually, if you'd rather.
+
 Pick one. **None of the first three asks you for an API key.**
 
 ### A) Your Claude subscription — the default
@@ -133,6 +138,7 @@ This extension does not accumulate your code anywhere. Concretely:
 | --- | --- |
 | `Unravel: Explain Selection` | Explains the selection (mode detected automatically). |
 | `Unravel: Explain as Regex` | Explains the selection as a regex. |
+| `Unravel: Open Settings` | Opens the visual settings panel described above. |
 | `Unravel: Set API Key` | Stores an Anthropic API key in `SecretStorage`. |
 | `Unravel: Clear API Key` | Deletes the stored API key. |
 
@@ -214,6 +220,11 @@ değiştirirsiniz, yeniden seçim yapmanız gerekmez.
 
 ## Kurulum
 
+Command Palette'ten **Unravel: Open Settings** açın (ya da Unravel panelinin başlık çubuğundaki
+dişli ikonuna tıklayın) — makinenizde gerçekten ne kurulu olduğunu gösteren görsel bir seçici
+açılır, `settings.json` düzenlemeye gerek kalmaz. Aşağıdaki adımlar aynı seçimleri elle yapmak
+isteyenler için.
+
 Birini seçin. **İlk üçünün hiçbiri sizden API key istemez.**
 
 ### A) Claude aboneliğinizle — varsayılan
@@ -292,6 +303,7 @@ Bu eklenti kodunuzu hiçbir yerde biriktirmez. Somut olarak:
 | --- | --- |
 | `Unravel: Explain Selection` | Seçimi açıklar (mod otomatik algılanır). |
 | `Unravel: Explain as Regex` | Seçimi regex olarak açıklar. |
+| `Unravel: Open Settings` | Yukarıda anlatılan görsel ayarlar panelini açar. |
 | `Unravel: Set API Key` | Anthropic API key'ini `SecretStorage`'a kaydeder. |
 | `Unravel: Clear API Key` | Kayıtlı API key'i siler. |
 

@@ -27,4 +27,5 @@ export {
 } from "./errors.js";
 export type { ExplainError } from "./errors.js";
 export { resolveClaudeCommand } from "./provider/claude-cli-resolve.js";
+export { resolveCodexCommand } from "./provider/codex-cli-resolve.js";
 export type { Provider, StreamCompletionRequest } from "./provider/types.js";

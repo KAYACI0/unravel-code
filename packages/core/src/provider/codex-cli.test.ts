@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveCliCommand } from "./cli-resolve.js";
+import { resolveCodexCommand } from "./codex-cli-resolve.js";
 import { parseCodexError, parseCodexLine } from "./codex-cli-stream.js";
 
 const completed = (type: string, text: unknown) =>
@@ -59,33 +59,28 @@ describe("parseCodexError", () => {
   });
 });
 
-describe("resolveCliCommand for codex", () => {
-  const CODEX = {
-    posixName: "codex",
-    windowsExeName: "codex.exe",
-    npmBinSegments: ["@openai", "codex", "bin"],
-  };
+describe("resolveCodexCommand", () => {
   const env = { APPDATA: "APPDATA_DIR" } as NodeJS.ProcessEnv;
   const segments = ["APPDATA_DIR", "npm", "@openai", "codex", "codex.exe"];
   const isNpmExe = (path: string) => segments.every((segment) => path.includes(segment));
 
   it("uses a bare PATH lookup off Windows", () => {
-    expect(resolveCliCommand(CODEX, { platform: "linux", env, exists: () => true })).toBe("codex");
+    expect(resolveCodexCommand({ platform: "linux", env, exists: () => true })).toBe("codex");
   });
 
   it("finds the native exe the npm package ships on Windows", () => {
-    const command = resolveCliCommand(CODEX, { platform: "win32", env, exists: isNpmExe });
+    const command = resolveCodexCommand({ platform: "win32", env, exists: isNpmExe });
     expect(isNpmExe(command)).toBe(true);
   });
 
   it("never falls back to codex.cmd, which would require a shell", () => {
-    const command = resolveCliCommand(CODEX, { platform: "win32", env, exists: () => false });
+    const command = resolveCodexCommand({ platform: "win32", env, exists: () => false });
     expect(command).toBe("codex.exe");
     expect(command).not.toContain(".cmd");
   });
 
   it("honours an explicit override", () => {
-    expect(resolveCliCommand(CODEX, { platform: "linux", env, override: " /opt/codex " })).toBe(
+    expect(resolveCodexCommand({ platform: "linux", env, override: " /opt/codex " })).toBe(
       "/opt/codex",
     );
   });
