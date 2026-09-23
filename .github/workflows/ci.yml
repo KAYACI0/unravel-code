@@ -24,11 +24,16 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      # Build before typecheck/test: apps/vscode imports @unravel-code/core by
+      # its published entry point (dist/index.d.ts), which only exists after
+      # packages/core has been built. On a fresh checkout that directory does
+      # not exist yet, so typechecking first fails with "Cannot find module
+      # '@unravel-code/core'" even though the code is correct.
+      - name: Build
+        run: pnpm build
+
       - name: Typecheck
         run: pnpm typecheck
 
       - name: Test
         run: pnpm test
-
-      - name: Build
-        run: pnpm build
