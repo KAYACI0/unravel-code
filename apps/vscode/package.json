@@ -101,7 +101,7 @@
         "unravelCode.codexModel": {
           "type": "string",
           "default": "",
-          "description": "Model for Codex mode. Leave empty to use whatever Codex itself is configured with; unravelCode.model only applies to the Claude paths."
+          "description": "Model for Codex mode. Recommended: leave empty so Codex uses its own configured default - Codex's own model lineup changes independently of this extension, so a hardcoded choice here could name a model that no longer exists. unravelCode.model only applies to the Claude paths."
         },
         "unravelCode.lmPreferred": {
           "type": "string",
@@ -122,9 +122,14 @@
         },
         "unravelCode.model": {
           "type": "string",
-          "enum": ["claude-haiku-4-5", "claude-sonnet-5"],
+          "enum": ["claude-haiku-4-5", "claude-sonnet-5", "claude-opus-5"],
+          "enumDescriptions": [
+            "Cheapest and fastest. The default, and enough for most explanations.",
+            "Costs more than Haiku. Worth it for denser or unfamiliar code.",
+            "Most expensive. Reserve for code Sonnet struggles to explain well."
+          ],
           "default": "claude-haiku-4-5",
-          "description": "Anthropic model used to generate explanations."
+          "description": "Anthropic model used on the Claude Code and API key auth paths. Haiku is the cheapest and is recommended; switch only if explanations feel shallow."
         },
         "unravelCode.contextLines": {
           "type": "number",

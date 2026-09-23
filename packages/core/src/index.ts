@@ -1,4 +1,4 @@
-export { DEFAULT_MODEL, SONNET } from "./models.js";
+export { DEFAULT_MODEL, OPUS, SONNET } from "./models.js";
 export { detectMode } from "./mode.js";
 export { redactSecrets } from "./redact.js";
 export type { RedactResult } from "./redact.js";

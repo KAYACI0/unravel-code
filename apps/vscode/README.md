@@ -126,7 +126,7 @@ This extension does not accumulate your code anywhere. Concretely:
 | `unravelCode.lmPreferred` | `openai`, `copilot`, `claude`… | `""` | In `vscodeLm` mode, which provider to prefer. Matched against the model's vendor and family. |
 | `unravelCode.language` | `auto`, `tr`, `en` | `auto` | Explanation language. `auto` follows the VS Code display language. |
 | `unravelCode.detail` | `brief`, `detailed` | `detailed` | How deep the explanation goes. |
-| `unravelCode.model` | `claude-haiku-4-5`, `claude-sonnet-5` | `claude-haiku-4-5` | Model used on the Claude paths. |
+| `unravelCode.model` | `claude-haiku-4-5`, `claude-sonnet-5`, `claude-opus-5` | `claude-haiku-4-5` | Model used on the Claude paths, cheapest first. Haiku is the default and recommended; change it only if explanations feel shallow. |
 | `unravelCode.contextLines` | number (≥0) | `5` | Lines of surrounding code sent along. `0` = selection only. |
 | `unravelCode.claudeCodePath` | path | `""` | Path to the Claude Code executable. Empty = detect automatically. |
 | `unravelCode.codexPath` | path | `""` | Path to the Codex executable. Empty = detect automatically. |
@@ -291,7 +291,7 @@ Bu eklenti kodunuzu hiçbir yerde biriktirmez. Somut olarak:
 | `unravelCode.lmPreferred` | `openai`, `copilot`, `claude`… | `""` | `vscodeLm` modunda hangi sağlayıcı tercih edilsin. Model'in vendor ve family adıyla eşleştirilir. |
 | `unravelCode.language` | `auto`, `tr`, `en` | `auto` | Açıklama dili. `auto`, VS Code arayüz dilini takip eder. |
 | `unravelCode.detail` | `brief`, `detailed` | `detailed` | Açıklamanın derinliği. |
-| `unravelCode.model` | `claude-haiku-4-5`, `claude-sonnet-5` | `claude-haiku-4-5` | Claude yollarında kullanılacak model. |
+| `unravelCode.model` | `claude-haiku-4-5`, `claude-sonnet-5`, `claude-opus-5` | `claude-haiku-4-5` | Claude yollarında kullanılacak model, en ucuzdan başlayarak. Varsayılan ve önerilen Haiku'dur; açıklamalar yetersiz hissettirirse değiştirin. |
 | `unravelCode.contextLines` | sayı (≥0) | `5` | Gönderilecek çevre kod satırı sayısı. `0` = sadece seçim. |
 | `unravelCode.claudeCodePath` | yol | `""` | Claude Code çalıştırılabilirinin yolu. Boşsa otomatik bulunur. |
 | `unravelCode.codexPath` | yol | `""` | Codex çalıştırılabilirinin yolu. Boşsa otomatik bulunur. |

@@ -58,10 +58,11 @@ root.innerHTML = `
 
         <label for="modelSelect">Claude model</label>
         <select id="modelSelect">
-          <option value="claude-haiku-4-5">Haiku — fast, default</option>
-          <option value="claude-sonnet-5">Sonnet — stronger, slower</option>
+          <option value="claude-haiku-4-5">Haiku — cheapest, recommended</option>
+          <option value="claude-sonnet-5">Sonnet — balanced, costs more</option>
+          <option value="claude-opus-5">Opus — most capable, priciest</option>
         </select>
-        <p class="field-desc">Used by the Claude Code and API key auth modes.</p>
+        <p class="field-desc">Used by the Claude Code and API key auth modes. Haiku is the cheapest and is recommended by default; switch only if explanations feel shallow.</p>
 
         <label for="contextLinesInput">Context lines</label>
         <input type="number" id="contextLinesInput" min="0" max="200" />
@@ -80,6 +81,7 @@ root.innerHTML = `
 
           <label for="codexModelInput">Codex model</label>
           <input type="text" id="codexModelInput" placeholder="Uses Codex's own default" spellcheck="false" />
+          <p class="field-desc">Leave empty (recommended) — Codex's model lineup changes on its own schedule, so a name typed here can go stale.</p>
         </div>
       </details>
     </section>
