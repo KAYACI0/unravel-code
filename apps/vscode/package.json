@@ -2,7 +2,7 @@
   "name": "unravel-code",
   "displayName": "Unravel Code",
   "description": "Explain selected code or a regex, step by step, in Turkish or English.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "license": "MIT",
   "publisher": "unravel-code",
