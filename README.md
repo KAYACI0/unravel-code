@@ -1,4 +1,6 @@
-<h1 align="center">Unravel Code</h1>
+<p align="center">
+  <img src=".github/assets/banner.png" alt="Unravel Code" width="100%">
+</p>
 
 <p align="center">
   <strong>Select code you don't understand. Read the explanation.</strong><br>

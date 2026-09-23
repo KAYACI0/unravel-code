@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="../../.github/assets/banner.png" alt="Unravel Code" width="100%">
+</p>
+
 # Unravel Code
 
 **Select code you don't understand. Read the explanation.** No API key, no signup — it runs on the
