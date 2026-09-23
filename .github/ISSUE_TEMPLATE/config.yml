@@ -1,0 +1,15 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question about setup or usage / Kurulum veya kullanım sorusu
+    url: https://github.com/KAYACI0/unravel-code/discussions
+    about: >
+      Not sure which auth mode to use, or something is confusing rather than broken?
+      Ask in Discussions. / Hangi kimlik modunu seçeceğinizden emin değilseniz ya da bozuk
+      değil de kafa karıştırıcı bir durum varsa Discussions'a yazın.
+
+  - name: Security issue / Güvenlik sorunu
+    url: https://github.com/KAYACI0/unravel-code/security/advisories/new
+    about: >
+      Report privately, not as a public issue — especially anything where code or a credential
+      could leak. / Herkese açık issue yerine özel olarak bildirin; özellikle kod veya kimlik
+      bilgisi sızdırabilecek durumlar için.

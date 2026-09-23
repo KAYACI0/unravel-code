@@ -1,0 +1,5 @@
+# Normalize line endings to LF in the repository regardless of a contributor's
+# local core.autocrlf setting. Without this, a Windows checkout (e.g. during a
+# rebase) rewrites tracked files to CRLF and Biome then reports them as
+# unformatted, even though no real content changed.
+* text=auto eol=lf

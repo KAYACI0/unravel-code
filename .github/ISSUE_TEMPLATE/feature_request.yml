@@ -1,0 +1,58 @@
+name: Feature request
+description: Suggest something Unravel should do. / Unravel'ın yapmasını istediğiniz bir şey.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before writing: Unravel **only explains code**. Features that change code — refactoring,
+        fixing, generating, chatting — are out of scope on purpose, and will be closed.
+        A request to explain something *better* is very much in scope.
+
+        Yazmadan önce: Unravel **sadece kodu açıklar**. Kodu değiştiren özellikler — refactor,
+        düzeltme, üretme, sohbet — bilinçli olarak kapsam dışıdır ve kapatılır. Bir şeyi *daha iyi*
+        açıklamasına dair istekler ise tam da kapsam içidir.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is hard right now? / Şu an ne zor?
+      description: >
+        Describe the situation you hit, not the solution you have in mind. The concrete moment
+        matters more than the feature name.
+        Aklınızdaki çözümü değil, karşılaştığınız durumu anlatın. Somut an, özelliğin adından
+        daha önemli.
+      placeholder: |
+        When I explain a long function, I lose track of which part of it the explanation is about.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you want it to do? / Ne yapmasını isterdiniz?
+      description: Optional. If you have a specific idea, put it here.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area / Alan
+      options:
+        - Explanation quality / Açıklama kalitesi
+        - Prompts and modes (code, regex, legacy) / Prompt ve modlar
+        - Auth and providers / Kimlik ve sağlayıcılar
+        - VS Code UI / VS Code arayüzü
+        - CLI
+        - Privacy and redaction / Gizlilik ve maskeleme
+        - Other / Diğer
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example / Örnek
+      description: >
+        A snippet where today's output falls short, plus what a good explanation would say.
+        Bugünkü çıktının yetersiz kaldığı bir örnek ve iyi bir açıklamanın ne diyeceği.
+      render: text

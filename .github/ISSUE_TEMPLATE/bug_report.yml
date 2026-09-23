@@ -1,0 +1,68 @@
+name: Bug report
+description: Something does not work as described. / Anlatıldığı gibi çalışmıyor.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please write in English or Turkish — either is fine.
+        Teşekkürler. İngilizce ya da Türkçe yazabilirsiniz, ikisi de olur.
+
+        **Do not paste API keys, tokens, or private code.** If you need to show a snippet,
+        replace anything sensitive first.
+        **API key, token veya özel kod yapıştırmayın.** Bir parça göstermeniz gerekiyorsa
+        hassas kısımları önce değiştirin.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened? / Ne oldu?
+      description: What you did, what you expected, and what you got instead.
+      placeholder: |
+        I selected a regex and pressed Ctrl+Alt+U. The panel opened but stayed empty.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: auth-mode
+    attributes:
+      label: Auth mode / Kimlik modu
+      description: The value of `unravelCode.auth`. Leave as the default if you never changed it.
+      options:
+        - claudeCode (default)
+        - vscodeLm
+        - codex
+        - auto
+        - apiKey
+        - not sure / emin değilim
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: Error message / Hata mesajı
+      description: >
+        The exact text shown in the panel, if any. Also check
+        Help → Toggle Developer Tools → Console for extension errors.
+      render: text
+
+  - type: input
+    id: versions
+    attributes:
+      label: Versions / Sürümler
+      description: >
+        Unravel version (Extensions view), VS Code version (Help → About), and OS.
+        If you use claudeCode or codex mode, include `claude --version` or `codex --version`.
+      placeholder: "Unravel 0.0.1, VS Code 1.95.0, Windows 11, Claude Code 2.1.235"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal example / En küçük örnek
+      description: >
+        A small, non-sensitive snippet that triggers the problem, if you can produce one.
+        Hassas olmayan, sorunu tetikleyen küçük bir örnek verebilirseniz.
+      render: text

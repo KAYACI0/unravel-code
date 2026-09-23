@@ -8,3 +8,7 @@ out/
 *.tsbuildinfo
 .DS_Store
 coverage/
+
+# Internal working docs — kept locally, never pushed.
+/CLAUDE.md
+/PROMPTS.md
